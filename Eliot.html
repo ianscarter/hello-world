@@ -1,0 +1,113 @@
+<html>
+	<head>
+			<style>
+				#backg
+				{
+					position:absolute;
+					left: 0px;
+					top: 0px;
+					z-index:-1;
+				}
+
+				#canvas
+				{
+					position:absolute;
+					left: 0px;
+					top: 0px;
+					z-index:0;
+				}
+		</style>
+	</head>
+	<body onload = "load()" onkeydown = "keypress(event)">
+
+	<canvas id="canvas" width="640" height="480"></canvas>
+	<canvas id="backg" width="640" height="480"></canvas>
+
+		<script>	
+			var ctx = 0;
+			var backg = 0;
+			var player = {x:320,y:240};
+			playerRad = 50;
+			minX = 0 + playerRad;
+			maxX = 640 - playerRad;
+			minY = 0 + playerRad;
+			maxY = 480 - playerRad;
+			playerRad = 50;
+			moveSpeed = 5;
+			
+			function load()
+			{
+				ctx = document.getElementById('canvas').getContext('2d');
+				backg = document.getElementById('backg').getContext('2d');
+				backg.fillStyle="green";
+				backg.fillRect(0,0,640,480)
+			}
+
+			function keypress(evt)
+			{
+
+				if (!evt)
+					{evt = window.event}
+				console.log(evt)
+				switch (evt.key) 
+				{
+					case 'w':
+					case 'W':
+						player.y -= moveSpeed;
+						collision();
+						draw();
+						break;
+					case 'a':
+					case 'A':
+						player.x -= moveSpeed;
+						collision();						
+						draw();
+						break;
+					case 's' : 
+					case 'S' : 
+						player.y += moveSpeed;
+						collision();
+						draw();
+						break;	
+					case 'd' :
+					case 'D' : 
+						player.x+= moveSpeed;
+						collision();
+						draw();
+						break;
+				}		
+			}
+			
+			function draw()
+			{
+				ctx.clearRect(0,0,640,480);
+				    ctx.beginPath();
+					ctx.arc(player.x,player.y,50,0,Math.PI*2,true); 
+					ctx.fillStyle="#FF0000";
+					ctx.fill();
+			}
+			
+			function collision()
+			{
+				if (player.x < minX)
+				{
+					player.x += moveSpeed;
+				}
+				else if (player.x > maxX)
+				{
+					player.x -= moveSpeed;					
+				}
+				
+				if (player.y < minY)
+				{
+					player.y += moveSpeed;
+				}
+				else if (player.y > maxY)
+				{
+					player.y -= moveSpeed;					
+				}
+				
+			}
+		</script>
+	</body>
+</html>
